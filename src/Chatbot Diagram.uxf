@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>40</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>chatbot.controller :: Runner
+--
++ main (String []) : void
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>260</x>
+      <y>30</y>
+      <w>340</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>chatbot.controller :: ChatController
+--
+- view : Popup
+- myBot: ChatBot
+
+--
++ ChatController() : constructor
++ start() : void
+- interactWithChatbot() : void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>680</x>
+      <y>40</y>
+      <w>370</w>
+      <h>220</h>
+    </coordinates>
+    <panel_attributes>chatbot.model :: Chatbot
+--
+- userName : String
+- chatbotName : String
+- questionsArray : String []
+- userResponseList : ArrayList&lt;String&gt;
+- chatReplyList : ArrayList&lt;String&gt;
+
+--
++ Chatbot(String) : constructor
+- setupQuestions() : void 
++ processText(String) : String
++ get()/set(...) </panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

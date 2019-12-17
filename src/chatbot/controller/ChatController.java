@@ -12,13 +12,25 @@ public class ChatController
 	
 	public ChatController()
 	{
+		myBot = new Chatbot("Silly Chat Bot");
 		view = new Popup();
 	
 	}
 	
 	public void start()
 	{
-		System.out.println("Hello world!");
+		interactWithChatbot();
+	}
+	
+	private void interactWithChatbot()
+	{
+		String response = view.askQuestion("Welcome to the Chatbot!");
+		
+		while (!response.equals("quit"))
+		{
+			response = myBot.processText(response);
+			response = view.askQuestion(response);
+		}
 	}
 
 }

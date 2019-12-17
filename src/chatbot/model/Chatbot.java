@@ -47,9 +47,29 @@ public class Chatbot
 	
 	public String processText(String text)
 	{
-		String response = "You said: " + text;
+		userResponseList.add(text);
+		if (!exitChecker(text))
+		{
+			String response = "You said: " + text;
 		
-		return response;
+			int randomQuestionIndex = (int) (Math.random() * questionsArray.length);
+			response += "\n" + questionsArray[randomQuestionIndex] + "\n";
+		
+			return response;
+		}
+		
+		return "Goodbye!";
 	}
 
+	private boolean exitChecker(String words)
+	{
+		boolean isValid = false;
+		
+		if (words.equalsIgnoreCase("quit"))
+		{
+			isValid = true;
+		} 
+		
+		return isValid;
+	}
 }

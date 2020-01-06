@@ -13,6 +13,8 @@ public class Chatbot
 	
 	private String [] questionsArray;
 	
+	private boolean [] questionsAnswered;
+	
 	private ArrayList<String> userResponseList;
 	
 	private ArrayList<String> chatReplyList;
@@ -23,6 +25,7 @@ public class Chatbot
 	public Chatbot(String chatbotName)
 	{
 		this.chatbotName = chatbotName;
+		this.questionsAnswered = new boolean [10];
 		this.questionsArray = new String [10];
 		this.userResponseList = new ArrayList<String>();
 		this.chatReplyList = new ArrayList<String>();
@@ -53,12 +56,40 @@ public class Chatbot
 			String response = "You said: " + text;
 		
 			int randomQuestionIndex = (int) (Math.random() * questionsArray.length);
+			
+			if (checkQuestions())
+			{
+				questionsAnswered = new boolean[questionsAnswered.length];
+			}
+			
+			while (questionsAnswered[randomQuestionIndex])
+			{
+				randomQuestionIndex = (int) (Math.random() * questionsArray.length);
+			}
+			
+			
 			response += "\n" + questionsArray[randomQuestionIndex] + "\n";
+			
+			questionsAnswered[randomQuestionIndex] = true;
 		
 			return response;
 		}
 		
 		return "Goodbye!";
+	}
+	
+	private boolean checkQuestions()
+	{
+		boolean answeredAll = false;
+		
+		for (boolean answered : questionsAnswered)
+		{
+			if (answered && answeredAll)
+			{
+				return true;
+			}
+		}
+		return answeredAll;
 	}
 
 	private boolean exitChecker(String words)
@@ -71,5 +102,33 @@ public class Chatbot
 		} 
 		
 		return isValid;
+	}
+	
+	private boolean checkTooMuchOrder(String userInput)
+	{
+		boolean isOrdered = true;
+		String orderedString = "1234567890qwertyuiopasdfghjklzxcvbnmabcdefghijklmnopqrstuvwxyz";
+		
+		for (int index = 0; index < orderedString.length() - 3; index++)
+		{
+			String match = orderedString.substring(index, index + 3);
+			
+			if (userInput.indexOf(match) > -1)
+			{
+				return false;
+			}
+		}
+		
+		for (int index = orderedString.length() - 1; index >= 2; index--)
+		{
+			String match = orderedString.substring(index - 2, index + 1);
+			
+			if (userInput.contains(match))
+			{
+				return false;
+			}
+		}
+		
+		return isOrdered;
 	}
 }

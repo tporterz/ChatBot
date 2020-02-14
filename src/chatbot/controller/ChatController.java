@@ -1,36 +1,36 @@
 package chatbot.controller;
 
 import chatbot.view.Popup;
+import chatbot.view.ChatFrame;
 import chatbot.model.Chatbot;
-import javax.swing.JOptionPane;
-import java.util.ArrayList;
 
 public class ChatController
 {
 	private Popup view;
 	private Chatbot myBot;
+	private ChatFrame frame;
 	
 	public ChatController()
 	{
 		myBot = new Chatbot("Silly Chat Bot");
 		view = new Popup();
-	
+		frame = new ChatFrame(this);
 	}
 	
 	public void start()
 	{
-		interactWithChatbot();
+		view.displayMessage("Welcome to the new chatbot!");
 	}
 	
-	private void interactWithChatbot()
+	public String interactWithChatbot(String textInput)
 	{
-		String response = view.askQuestion("Welcome to the Chatbot!");
+		String output = "";
 		
-		while (!response.equals("quit"))
-		{
-			response = myBot.processText(response);
-			response = view.askQuestion(response);
-		}
+		output = myBot.processText(textInput);
+		
+		return output;
 	}
+	
+	
 
 }

@@ -31,6 +31,12 @@ public class ChatController
 		return output;
 	}
 	
+	public void handleErrors(Exception error)
+	{
+		view.displayMessage("There has been an error!");
+		view.displayMessage("error.getMessage");
+	}
+	
 	
 
 }

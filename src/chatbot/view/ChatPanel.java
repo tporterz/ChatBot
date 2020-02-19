@@ -39,6 +39,7 @@ public class ChatPanel extends JPanel
 		chatPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		chatArea.setWrapStyleWord(true);
 		chatPane.setViewportView(chatArea);
+		chatArea.setEnabled(false);
 		chatArea.setLineWrap(true);
 	}
 	
@@ -77,6 +78,14 @@ public class ChatPanel extends JPanel
 				updateScreen();
 			} 
 		});
+		
+		chatField.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent enterPress)
+			{
+				updateScreen();
+			}
+		});		
 	}
 	
 	private void updateScreen()

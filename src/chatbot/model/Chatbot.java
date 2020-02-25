@@ -8,15 +8,10 @@ public class Chatbot
 	// Declaration Section
 	
 	private String userName;
-	
 	private String chatbotName;
-	
 	private String [] questionsArray;
-	
 	private boolean [] questionsAnswered;
-	
 	private ArrayList<String> userResponseList;
-	
 	private ArrayList<String> chatReplyList;
 	
 	// Declaration Section
@@ -57,25 +52,62 @@ public class Chatbot
 		
 			int randomQuestionIndex = (int) (Math.random() * questionsArray.length);
 			
-			if (checkQuestions())
+			if (Math.random() < .05)
 			{
-				questionsAnswered = new boolean[questionsAnswered.length];
+				response = getPreviousTopic();
 			}
 			
-			while (questionsAnswered[randomQuestionIndex])
+			if (Math.random() < .03)
 			{
-				randomQuestionIndex = (int) (Math.random() * questionsArray.length);
+				response = "Let's look at your text and see if the words can pass our password checker!";
+				
+				for (String word : text.split(" "))
+				{
+					if (checkTooMuchOrder(word))
+					{
+						response += "\n" + word + " has too much order!";
+					}
+					
+					else
+					{
+						response += "\n" + word + " doesn't have too much order!";
+					}
+				}
+				response += "\n" + "Very important information to know, huh?";
+				
 			}
 			
-			
-			response += "\n" + questionsArray[randomQuestionIndex] + "\n";
-			
-			questionsAnswered[randomQuestionIndex] = true;
-		
+			else 
+			{
+				while (questionsAnswered[randomQuestionIndex])
+				{
+					randomQuestionIndex = (int) (Math.random() * questionsArray.length);
+					if (checkQuestions())
+					{
+						questionsAnswered = new boolean[questionsAnswered.length];
+						response += "You exhausted my topics... rebooting...\n";
+					}
+				}
+				response += "\n" + questionsArray[randomQuestionIndex] + "\n";
+				questionsAnswered[randomQuestionIndex] = true;
+			}
+			chatReplyList.add(response);
 			return response;
 		}
 		
 		return "Goodbye!";
+	}
+	
+	private String getPreviousTopic()
+	{
+		//Gets random response out of user response list
+		int randomPreviousIndex = (int) (Math.random() * userResponseList.size());
+		String topic = "";
+		
+		topic += "Earlier, you said:\n" + userResponseList.get(randomPreviousIndex);
+		topic += "\nWhat do you think about that now?\n";
+		
+		return topic;
 	}
 	
 	private boolean checkQuestions()
@@ -104,7 +136,7 @@ public class Chatbot
 		return isValid;
 	}
 	
-	private boolean checkTooMuchOrder(String userInput)
+	private boolean checkTooMuchOrder(String text)
 	{
 		boolean isOrdered = true;
 		String orderedString = "1234567890qwertyuiopasdfghjklzxcvbnmabcdefghijklmnopqrstuvwxyz";
@@ -113,7 +145,7 @@ public class Chatbot
 		{
 			String match = orderedString.substring(index, index + 3);
 			
-			if (userInput.indexOf(match) > -1)
+			if (text.toLowerCase().indexOf(match) > -1)
 			{
 				return false;
 			}
@@ -121,9 +153,11 @@ public class Chatbot
 		
 		for (int index = orderedString.length() - 1; index >= 2; index--)
 		{
-			String match = orderedString.substring(index - 2, index + 1);
+			String match = orderedString.substring(index, index + 1);
+			match += orderedString.substring(index - 1, index);
+			match += orderedString.substring(index - 2, index - 1);
 			
-			if (userInput.contains(match))
+			if (text.toLowerCase().contains(match))
 			{
 				return false;
 			}
